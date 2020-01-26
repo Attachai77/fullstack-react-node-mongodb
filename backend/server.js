@@ -1,35 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose')
-const Product = require('./models/product')
 
 const app = express();
-const PORT = "3000";
+const PORT = process.env.PORT || 3000
+const route = require('./route/index') 
+
+const { handleError, ErrorHandler } = require('./helpers/errorHandler')
+
+// Middleware
 app.use(express.json())
+app.use('/api', route)
 
-mongoose.connect('mongodb://localhost:27017/myDB', {useNewUrlParser: true})
+mongoose.connect('mongodb://localhost:27017/myDB', {   useNewUrlParser: true    })
 
-app.get('/',(req, res)=>{
-     res.send('Hello My App')
+app.get('/',(req, res, next)=>{
+     res.send("Home")
+     // throw new ErrorHandler(500, 'Internal server error');
 })
 
-app.post('/products', async (req, res) => {
-     const payload = req.body
-     const product = new Product(payload)
-     await product.save()
-     res.status(201)
-     res.json({
-          product: product,
-          success: true
-     })
-})
-
-app.get('/products', async (req, res)=>{
-     const products = await Product.find()
-     res.json({
-          products: products,
-          success: true
-     })
-} )
+//Error Handler
+app.use((err, req, res, next) => {
+     handleError(err, res);
+});
 
 app.listen(3000, () => {
      console.log("server status : running");
