@@ -16,6 +16,7 @@ exports.view = async (req, res, next) => {
         const id = req.params.id
         const user = await User.findById(id)
         // const user = await User.findOne({ _id: id })
+        
         res.status(200).json({
             user: user
         })

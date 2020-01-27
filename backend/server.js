@@ -1,9 +1,9 @@
 const express = require('express');
-const mongoose = require('mongoose')
 
 const app = express();
 const PORT = process.env.PORT || 3000
-const route = require('./route/index') 
+const route = require('./route/index')
+const Connection = require('./config/db') 
 
 const { handleError, ErrorHandler } = require('./helpers/errorHandler')
 
@@ -11,7 +11,8 @@ const { handleError, ErrorHandler } = require('./helpers/errorHandler')
 app.use(express.json())
 app.use('/api', route)
 
-mongoose.connect('mongodb://localhost:27017/myDB', {   useNewUrlParser: true    })
+//Database Connection
+Connection()
 
 app.get('/',(req, res, next)=>{
      res.send("Home")

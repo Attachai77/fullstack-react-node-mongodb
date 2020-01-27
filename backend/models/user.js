@@ -13,7 +13,7 @@ const userSchema = new Schema({
     weight: Number,
     height: Number,
     deleted: Boolean
-})
+}, { timestamps: true, versionKey: false } )
 
 const UserModel = mongoose.model('User', userSchema)
 module.exports = UserModel
