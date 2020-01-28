@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 
 const { ErrorHandler } = require('../helpers/errorHandler')
+const { secretTokenKey } = require('../config/env')
 const User = require('../models/user')
 
 module.exports = {
@@ -22,7 +23,7 @@ module.exports = {
             await user.save()
 
             const token = jwt.sign( 
-                { userId: user._id },  'UvFZNbUaEMUjTAFPwGAsQ8zwR8M2LrNm',  {    expiresIn:'1d'  }
+                { userId: user._id },  secretTokenKey,  {    expiresIn:'1d'  }
             )
 
             res.status(201).json({
@@ -35,13 +36,35 @@ module.exports = {
         }
     },
     login: async (req, res, next) => {
+        try {
+            const { username, password } = req.body
+            const user = await User.findOne({username})
+            if (!user) {
+                res.status(200).json({
+                    success: false,
+                    message: "Username or password is not correct."
+                })
+            }
 
-    },
-    verifyToken: async (req, res, next) => {
+            const isMatch = await bcrypt.compare(password, user.password)
+            if (!isMatch) {
+                res.status(200).json({
+                    success: false,
+                    message: "Username or password is not correct."
+                })
+            }
 
-    },
-    refreshToken: async (req, res, next) => {
-
+            const token = jwt.sign( 
+                { userId: user._id },  secretTokenKey,  {    expiresIn:'1d'  }
+            )
+            res.status(200).json({
+                success: true,
+                token,
+                user
+            })
+        } catch (error) {
+            next(error)
+        }
     },
     resetPassword: async (req, res, next) => {
 
