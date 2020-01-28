@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const { ErrorHandler } = require('../helpers/errorHandler')
 
 exports.index = async (req, res, next) => {
     try {
@@ -29,6 +30,10 @@ exports.view = async (req, res, next) => {
 exports.create = async (req, res, next) => {
     try {
         const payload = req.body
+        const checkUser = await User.findOne({username: payload.username})
+        if (checkUser) {
+            throw new ErrorHandler(400, 'Username has already been taken.');
+        }
         const user = new User(payload)
         await user.save()
         res.status(201).json({
