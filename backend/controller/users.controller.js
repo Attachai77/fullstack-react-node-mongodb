@@ -13,6 +13,7 @@ exports.index = async (req, res, next) => {
 
 exports.view = async (req, res, next) => {
     try {
+        // console.log(req.auth);
         const id = req.params.id
         const user = await User.findById(id)
         // const user = await User.findOne({ _id: id })
