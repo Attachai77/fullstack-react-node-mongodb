@@ -7,6 +7,14 @@ const Connection = require('./config/db')
 
 const { handleError, ErrorHandler } = require('./helpers/errorHandler')
 
+//Access Controle
+app.use(function(req, res, next) {
+     res.header("Access-Control-Allow-Origin", "*"); 
+     res.header("Access-Control-Allow-Headers", "*");
+     res.header("Access-Control-Allow-Methods", "*"); 
+     next();
+});
+
 // Middleware
 app.use(express.json())
 app.use('/api', route)

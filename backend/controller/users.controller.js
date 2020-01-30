@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs')
+
 const User = require('../models/user')
 const { ErrorHandler } = require('../helpers/errorHandler')
 
@@ -35,6 +37,10 @@ exports.create = async (req, res, next) => {
             throw new ErrorHandler(400, 'Username has already been taken.');
         }
         const user = new User(payload)
+
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(payload.password, salt);
+
         await user.save()
         res.status(201).json({
             product: user,

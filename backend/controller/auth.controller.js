@@ -55,7 +55,10 @@ module.exports = {
             }
 
             const token = jwt.sign( 
-                { userId: user._id },  secretTokenKey,  {    expiresIn:'1d'  }
+                { userId: user._id },  secretTokenKey,  {    
+                    // expiresIn: 30 //seconds  
+                    expiresIn: '1d' //a day  
+                }
             )
             res.status(200).json({
                 success: true,
