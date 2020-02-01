@@ -2,12 +2,12 @@
 import api from "./index"
 
 export default {
-    register: async () => {
+    register: async ( payload ) => {
         try{
-            const users = await api.get('/users')
+            const users = await api.post('/register', payload )
             return users
-        }catch(e){
-            console.log("Error : "+e)
+        }catch(err){
+            throw err.response
         }
     }
 }

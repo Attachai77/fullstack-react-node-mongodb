@@ -7,7 +7,7 @@ const Connection = require('./config/db')
 
 const { handleError, ErrorHandler } = require('./helpers/errorHandler')
 
-//Access Controle
+//set Access Controle
 app.use(function(req, res, next) {
      res.header("Access-Control-Allow-Origin", "*"); 
      res.header("Access-Control-Allow-Headers", "*");
@@ -32,7 +32,7 @@ app.use((err, req, res, next) => {
      handleError(err, res);
 });
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
      console.log("server status : running");
      console.log(`run on port : ${PORT}`);
 });

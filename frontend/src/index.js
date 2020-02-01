@@ -14,6 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Login from './components/Auth/login'
 import Register from './components/Auth/register'
+import Home from './components/home'
 
 const RoutedApp = () => (
     <BrowserRouter >
@@ -21,6 +22,7 @@ const RoutedApp = () => (
         <Route exact path="/" component={App} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+        <Route path="/home" component={Home} />
         {/* <Route path="/clock" component={Clock} />
         <Route path="/gallery" component={Gallery} />
         <Route path="/form" component={Form} /> */}
